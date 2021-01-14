@@ -19,7 +19,7 @@ player1 = sprites.create(img`
     . . 4 4 f 4 4 5 5 4 4 f 4 4 . .
     . . . . . f f f f f f . . . . .
     . . . . . f f . . f f . . . . .
-`)
+`,SpriteKind.Player)
 player1.setPosition(20, 20)
 controller.moveSprite(player1)
 player1.setFlag(SpriteFlag.StayInScreen, true)
@@ -41,7 +41,7 @@ player2 = sprites.create(img`
     . . 4 4 f 4 4 5 5 4 4 f 4 4 . .
     . . . . . f f f f f f . . . . .
     . . . . . f f . . f f . . . . .
-`)
+`,SpriteKind.Player)
 player2.setPosition(100, 50)
 controller.player2.moveSprite(player2)
 player2.setFlag(SpriteFlag.StayInScreen, true)
@@ -63,10 +63,35 @@ snack = sprites.create(img`
     e e e e 2 e 2 2 e e e c . . . .
     e e e 2 e e c e c c c . . . . .
     . c c c c c c c . . . . . . . .
-`)
+`,SpriteKind.Food)
 snack.setPosition(70, 95)
 
 scene.setBackgroundColor(7)
 
 info.setScore(0)
 info.player2.setScore(0)
+
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function(sprite: Sprite, otherSprite: Sprite) {
+    
+    if (sprite == player1) {
+        info.changeScoreBy(1)
+    }
+
+     if (sprite == player2) {
+       info.player2.changeScoreBy(1)
+    }
+
+    
+    
+
+    if (info.score() > 4) {
+        player2.destroy()
+    }
+
+    if (info.player2.score() > 4) {
+        player1.destroy()
+    }
+
+    otherSprite.setPosition(Math.randomRange(20,110), Math.randomRange(20,110))
+
+})
