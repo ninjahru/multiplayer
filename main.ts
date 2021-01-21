@@ -1,6 +1,26 @@
 let player1: Sprite = null
 let player2: Sprite = null
 let snack:Sprite = null 
+let obj1:Sprite = null 
+
+obj1  = sprites.create(img`
+    . . . . . 3 3 b 3 3 d d 3 3 . .
+    . . . . 3 1 1 d 3 d 1 1 1 1 3 .
+    . . . 3 d 1 1 1 d 1 1 1 d 3 1 3
+    . . 3 d d 1 1 1 d d 1 1 1 3 3 3
+    . 3 1 1 d 1 1 1 1 d d 1 1 b . .
+    . 3 1 1 1 d 1 1 1 1 1 d 1 1 3 .
+    . b d 1 1 1 d 1 1 1 1 1 1 1 3 .
+    . 4 b 1 1 1 1 d d 1 1 1 1 d 3 .
+    . 4 4 d 1 1 1 1 1 1 d d d b b .
+    . 4 d b d 1 1 1 1 1 1 1 1 3 . .
+    4 d d 5 b d 1 1 1 1 1 1 1 3 . .
+    4 5 d 5 5 b b d 1 1 1 1 d 3 . .
+    4 5 5 d 5 5 d b b b d d 3 . . .
+    4 5 5 5 d d d d 4 4 b 3 . . . .
+    . 4 5 5 5 4 4 4 . . . . . . . .
+    . . 4 4 4 . . . . . . . . . . .
+`,SpriteKind.Enemy)
 
 player1 = sprites.create(img`
     . . . . . . f f f f . . . . . .
@@ -93,5 +113,22 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function(sprite: Sprite, o
     }
 
     otherSprite.setPosition(Math.randomRange(20,110), Math.randomRange(20,110))
+
+})
+let cooldown = true
+game.onUpdateInterval(2000, function() {
+    obj1.setPosition(Math.randomRange(0,150), 0)
+    obj1.setVelocity(0, 50)
+    sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function(sprite: Sprite, otherSprite: Sprite) {
+         
+        if (cooldown) {
+            info.changeScoreBy(-1)
+            cooldown = false
+            pause(3000)
+        }
+        cooldown = true 
+        
+    })
+
 
 })
