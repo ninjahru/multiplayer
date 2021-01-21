@@ -1,9 +1,14 @@
 let player1: Sprite = null
 let player2: Sprite = null
 let snack:Sprite = null 
-let obj1:Sprite = null 
+let icescream:Sprite = null 
 
-obj1  = sprites.create(img`
+scene.setBackgroundColor(7)
+info.setScore(0)
+info.player2.setScore(0)
+info.setLife(12)
+info.player2.setLife(12)
+icescream  = sprites.create(img`
     . . . . . 3 3 b 3 3 d d 3 3 . .
     . . . . 3 1 1 d 3 d 1 1 1 1 3 .
     . . . 3 d 1 1 1 d 1 1 1 d 3 1 3
@@ -86,10 +91,7 @@ snack = sprites.create(img`
 `,SpriteKind.Food)
 snack.setPosition(70, 95)
 
-scene.setBackgroundColor(7)
 
-info.setScore(0)
-info.player2.setScore(0)
 
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function(sprite: Sprite, otherSprite: Sprite) {
     
@@ -115,16 +117,23 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function(sprite: Sprite, o
     otherSprite.setPosition(Math.randomRange(20,110), Math.randomRange(20,110))
 
 })
+
+
 let cooldown = true
+
+
 game.onUpdateInterval(2000, function() {
-    obj1.setPosition(Math.randomRange(0,150), 0)
-    obj1.setVelocity(0, 50)
+    icescream.setPosition(Math.randomRange(0,150), 0)
+    icescream.setVelocity(0, 50)
     sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function(sprite: Sprite, otherSprite: Sprite) {
          
         if (cooldown) {
             info.changeScoreBy(-1)
+            info.player2.changeLifeBy(-1)
+
             cooldown = false
-            pause(3000)
+            info.changeLifeBy(-1)
+            pause(4000)
         }
         cooldown = true 
         
